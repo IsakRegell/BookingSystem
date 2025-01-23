@@ -7,6 +7,9 @@ namespace BookingSystem
         public DbSet<Student> Student { get; set; } // Table for students
         public DbSet<Bookings> Bookings { get; set; } //Table for Bookings
 
+        public DbSet<Classes> Classes { get; set; } //Table for Classes
+        public DbSet<Instructors> Instructors { get; set; } //Table for Instructors
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Connection string for the database
