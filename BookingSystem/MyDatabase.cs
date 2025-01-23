@@ -10,6 +10,8 @@ namespace BookingSystem
         public DbSet<Classes> Classes { get; set; } //Table for Classes
         public DbSet<Instructors> Instructors { get; set; } //Table for Instructors
 
+        public DbSet<Class_schedule> Class_schedule { get; set; } // Table for class_schedule
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Connection string for the database
