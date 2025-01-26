@@ -31,7 +31,7 @@ namespace BookingSystem
                         //AddStudent();  Balen
                         break;
                     case "2":
-                        //AddTeacher();  Tomas
+                        InstructorManager.AddInstructor();  
                         break;
                     case "3":
                         //AddLesson();  Mikael
@@ -40,7 +40,7 @@ namespace BookingSystem
                         //ViewAllStudents();  Balen
                         break;
                     case "5":
-                        //ViewAllTeachers();  Tomas
+                        InstructorManager.ViewAllInstructors(); 
                         break;
                     case "6":
                         //ViewLessonsByTeacher();  Isak
@@ -52,7 +52,7 @@ namespace BookingSystem
                         //DeleteStudent();  Balen
                         break;
                     case "9":
-                        //DeleteTeacher();  Tomas
+                        InstructorManager.DeleteInstructor();  
                         break;
                     case "10":
                         //FilterLessonsByDate();  Mikael
