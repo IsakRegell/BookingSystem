@@ -51,7 +51,6 @@ namespace BookingSystem.Models
                     Console.WriteLine("An unexpected error occurred.");
                     Console.WriteLine($"Error details: {ex.Message}");
                 }
-
             }
         }
 
