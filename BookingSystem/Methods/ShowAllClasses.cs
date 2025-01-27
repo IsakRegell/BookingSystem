@@ -37,11 +37,11 @@ namespace BookingSystem.Methods
                     LevelName = c.Level.LevelName
                 }).ToList();
 
-            if (!classes.Any())
-            {
-                Console.WriteLine("No classes available in the system.");
-                return;
-            }
+                if (!classes.Any())
+                {
+                    Console.WriteLine("No classes available in the system.");
+                    return;
+                }
 
             Console.WriteLine("All Classes:");
             foreach (var classObj in classes)
@@ -56,6 +56,7 @@ namespace BookingSystem.Methods
 
                 Console.WriteLine($"  - Level: {classObj.LevelName}");
             }
+
         }
     }
 }
