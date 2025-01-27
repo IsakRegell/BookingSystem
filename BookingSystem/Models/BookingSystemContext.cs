@@ -33,6 +33,12 @@ public partial class BookingSystemContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //modelBuilder.Entity<Student>(entity =>
+        //{
+        //    entity.HasKey(e => e.Student_Id);
+        //});
+        modelBuilder.Entity<Student>().Property(x => x.Student_Id).ValueGeneratedOnAdd();
+
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.ClassId).HasName("PK__Classes__FDF479860A9E39EC");
