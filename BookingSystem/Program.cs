@@ -14,6 +14,9 @@ namespace BookingSystem
                .Options;
 
             using var dbContext = new BookingSystemContext(options);
+            var showAllClasses = new ShowAllClasses(dbContext);
+
+
 
             while (true)
             {
@@ -43,8 +46,7 @@ namespace BookingSystem
                         InstructorManager.AddInstructor();  
                         break;
                     case "3":
-                        var classesManager = new ClassesManager();
-                        classesManager.AddClass(dbContext);
+                        ClassesManager.AddClass();
 
                         //AddLesson();  Mikael
                         break;
@@ -58,7 +60,6 @@ namespace BookingSystem
                         //ViewLessonsByTeacher();  Isak
                         break;
                     case "7":
-                        var showAllClasses = new ShowAllClasses(dbContext);
                         showAllClasses.DisplayAllClasses();
                             //ViewAllLessons();  Mikael
                         break;
@@ -69,8 +70,7 @@ namespace BookingSystem
                         InstructorManager.DeleteInstructor();  
                         break;
                     case "10":
-                        var filterClassesByDate = new FilterClassesByDate(dbContext);
-                        filterClassesByDate.FilterClasses();
+                        ViewClasses.ViewClassesByDate();
                         //FilterLessonsByDate();  Mikael
                         break;
                     case "11":
