@@ -10,9 +10,9 @@ namespace BookingSystem
         static void Main(string[] args)
         {
             var options = new DbContextOptionsBuilder<BookingSystemContext>()
-               .UseSqlServer("Server=DESKTOP-SFTN8V0\\SQLEXPRESS;Database=BookingSystem;Trusted_Connection=True;TrustServerCertificate=true;")
+               .UseSqlServer("Server=DESKTOP-M80AGJE\\SQLEXPRESS;Database=BookingSytem;Trusted_Connection=True;TrustServerCertificate=true;")
                .Options;
-
+            var ViewLessonsByTeacher = new ViewLessonsByTeacher();
             using var dbContext = new BookingSystemContext(options);
 
             while (true)
@@ -55,12 +55,12 @@ namespace BookingSystem
                         InstructorManager.ViewAllInstructors(); 
                         break;
                     case "6":
+                        ViewLessonsByTeacher.DisplayAllLessonsBasedOnInstructor();
                         //ViewLessonsByTeacher();  Isak
                         break;
                     case "7":
                         var showAllClasses = new ShowAllClasses(dbContext);
                         showAllClasses.DisplayAllClasses();
-                            //ViewAllLessons();  Mikael
                         break;
                     case "8":
                         //DeleteStudent();  Balen
