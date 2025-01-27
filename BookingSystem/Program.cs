@@ -39,7 +39,7 @@ namespace BookingSystem
                 switch (BookingSystemMenuChoice)
                 {
                     case "1":
-                        //AddStudent();  Balen
+                        StudentManager.AddStudent();  
                         break;
                     case "2":
                         InstructorManager.AddInstructor();  
@@ -51,7 +51,7 @@ namespace BookingSystem
                         //AddLesson();  Mikael
                         break;
                     case "4":
-                        //ViewAllStudents();  Balen
+                        StudentManager.ViewAllStudents();  
                         break;
                     case "5":
                         InstructorManager.ViewAllInstructors(); 
@@ -64,7 +64,7 @@ namespace BookingSystem
                         showAllClasses.DisplayAllClasses();
                         break;
                     case "8":
-                        //DeleteStudent();  Balen
+                        StudentManager.DeleteStudent();  
                         break;
                     case "9":
                         InstructorManager.DeleteInstructor();  
