@@ -28,7 +28,7 @@ namespace BookingSystem
                 switch (BookingSystemMenuChoice)
                 {
                     case "1":
-                        //AddStudent();  Balen
+                        //AddStudent();  Balen gjorde fel
                         break;
                     case "2":
                         InstructorManager.AddInstructor();  
