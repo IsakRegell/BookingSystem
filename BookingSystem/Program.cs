@@ -13,7 +13,9 @@ namespace BookingSystem
                .UseSqlServer("Server=DESKTOP-M80AGJE\\SQLEXPRESS;Database=BookingSytem;Trusted_Connection=True;TrustServerCertificate=true;")
                .Options;
             var ViewLessonsByTeacher = new ViewLessonsByTeacher();
-            using var dbContext = new BookingSystemContext(options);
+            var dbContext = new BookingSystemContext(options);
+            var bookAclass = new BookAClass();
+
 
             while (true)
             {
@@ -56,7 +58,6 @@ namespace BookingSystem
                         break;
                     case "6":
                         ViewLessonsByTeacher.DisplayAllLessonsBasedOnInstructor();
-                        //ViewLessonsByTeacher();  Isak
                         break;
                     case "7":
                         var showAllClasses = new ShowAllClasses(dbContext);
@@ -74,10 +75,10 @@ namespace BookingSystem
                         //FilterLessonsByDate();  Mikael
                         break;
                     case "11":
-                        //FilterStudentsByLessons();  Isak
+                        bookAclass.BookClass();
                         break;
                     case "12":
-                        // Console.WriteLine("Exiting..."); Isak
+                        Console.WriteLine("Exiting...");
                         return;
                     default:
                         Console.WriteLine("Invalid option. Try again.");

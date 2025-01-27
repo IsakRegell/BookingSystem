@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookingSystem.Models;
 
 public partial class Student
 {
-    public int StudentId { get; set; }
+    [Key]
+    public int Student_Id { get; set; }
 
     public string? FirstName { get; set; }
 
