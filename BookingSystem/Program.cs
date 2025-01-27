@@ -15,6 +15,8 @@ namespace BookingSystem
 
             using var dbContext = new BookingSystemContext(options);
 
+            var studentService = new StudentService(dbContext);
+
             while (true)
             {
                 Console.WriteLine("====== Booking System Menu ======");
@@ -37,7 +39,7 @@ namespace BookingSystem
                 switch (BookingSystemMenuChoice)
                 {
                     case "1":
-                        //AddStudent();  Balen
+                        studentService.AddStudent();
                         break;
                     case "2":
                         InstructorManager.AddInstructor();  
@@ -49,7 +51,7 @@ namespace BookingSystem
                         //AddLesson();  Mikael
                         break;
                     case "4":
-                        //ViewAllStudents();  Balen
+                        studentService.ViewAllStudents();
                         break;
                     case "5":
                         InstructorManager.ViewAllInstructors(); 
@@ -63,7 +65,7 @@ namespace BookingSystem
                             //ViewAllLessons();  Mikael
                         break;
                     case "8":
-                        //DeleteStudent();  Balen
+                        studentService.DeleteStudent();
                         break;
                     case "9":
                         InstructorManager.DeleteInstructor();  
