@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using BookingSystem.Models;
 
 namespace BookingSystem.Models
 {
@@ -99,5 +100,5 @@ namespace BookingSystem.Models
         }
     }
 }
-    
+
 
