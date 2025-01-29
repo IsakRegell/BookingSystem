@@ -9,21 +9,14 @@ using System.Threading.Tasks;
 
 namespace BookingSystem.Methods
 {
-    public class FilterClassesByDate
+    public static class FilterClassesByDate
     {
-        private readonly BookingSystemContext dbContext;
-
-
-        public FilterClassesByDate(BookingSystemContext context)
+        public static void FilterClasses()
         {
-            dbContext = context;
-        }
+            using (var context = new BookingSystemContext())
+            {
 
-
-        public void FilterClasses()
-        {
-
-            Console.WriteLine("Enter Start Date (yyyy-MM-dd):");
+                Console.WriteLine("Enter Start Date (yyyy-MM-dd):");
             string startDateInput = Console.ReadLine();
             if (!DateOnly.TryParse(startDateInput, out DateOnly startDate))
             {
@@ -45,7 +38,7 @@ namespace BookingSystem.Methods
                 return;
             }
 
-            var filteredClasses = dbContext.Classes
+            var filteredClasses = context.Classes
                 .Where(c => c.ClassSchedules.Any(s => s.StartDate >= startDate && s.EndDate <= endDate))
                 .Select(c => new
                 {
@@ -70,18 +63,22 @@ namespace BookingSystem.Methods
             }
 
             Console.WriteLine($"Classes between {startDate:yyyy-MM-dd} and {endDate:yyyy-MM-dd}:");
-            foreach (var classObj in filteredClasses)
-            {
-                Console.WriteLine($"Class Name: {classObj.ClassName}");
-
-                foreach (var schedule in classObj.Schedules)
+                foreach (var classObj in filteredClasses)
                 {
-                    Console.WriteLine($"  - Schedule: {schedule.StartDate:yyyy-MM-dd} to {schedule.EndDate:yyyy-MM-dd}");
-                    Console.WriteLine($"  - Instructor: {schedule.Instructor.FirstName} {schedule.Instructor.LastName}");
-                }
+                    Console.WriteLine($"Class Name: {classObj.ClassName}");
 
-                Console.WriteLine($"  - Level: {classObj.LevelName}");
-            }
+                    foreach (var schedule in classObj.Schedules)
+                    {
+                        Console.WriteLine($"  - Schedule: {schedule.StartDate:yyyy-MM-dd} to {schedule.EndDate:yyyy-MM-dd}");
+                        Console.WriteLine($"  - Instructor: {schedule.Instructor.FirstName} {schedule.Instructor.LastName}");
+                    }
+
+                    Console.WriteLine($"  - Level: {classObj.LevelName}");
+
+
+                   }
+             }
+
         }
     }
 }

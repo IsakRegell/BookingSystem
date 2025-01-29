@@ -43,9 +43,7 @@ namespace BookingSystem
                         InstructorManager.AddInstructor();  
                         break;
                     case "3":
-                        var classesManager = new ClassesManager();
-                        classesManager.AddClass(dbContext);
-
+                        ClassesManager.AddClass();
                         //AddLesson();  Mikael
                         break;
                     case "4":
@@ -58,8 +56,7 @@ namespace BookingSystem
                         //ViewLessonsByTeacher();  Isak
                         break;
                     case "7":
-                        var showAllClasses = new ShowAllClasses(dbContext);
-                        showAllClasses.DisplayAllClasses();
+                        ShowAllClasses.DisplayAllClasses();
                             //ViewAllLessons();  Mikael
                         break;
                     case "8":
@@ -69,8 +66,7 @@ namespace BookingSystem
                         InstructorManager.DeleteInstructor();  
                         break;
                     case "10":
-                        var filterClassesByDate = new FilterClassesByDate(dbContext);
-                        filterClassesByDate.FilterClasses();
+                        FilterClassesByDate.FilterClasses();
                         //FilterLessonsByDate();  Mikael
                         break;
                     case "11":
