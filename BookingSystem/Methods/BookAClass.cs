@@ -1,17 +1,12 @@
 ﻿using BookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BookingSystem.Methods
+namespace BookingSystem.Models
 {
     public class BookAClass
     {
-        
         public void BookClass()
         {
             Console.WriteLine("Are you a new student? Y/N : ");
@@ -29,40 +24,32 @@ namespace BookingSystem.Methods
                     Console.Write("Enter Last Name: ");
                     var lastName = Console.ReadLine();
 
-                    // Possibly ask for DOB or other info...
-
                     student = new Student
                     {
                         FirstName = firstName,
-                        LastName = lastName,
-                        //DateOfBirth = DateTime.Now // Placeholder
+                        LastName = lastName
                     };
 
                     context.Students.Add(student);
                     try
                     {
                         context.SaveChanges();
-
-                        Console.WriteLine(student);
+                        Console.WriteLine("New student created successfully!");
                     }
                     catch (DbUpdateException dbEx)
                     {
                         Console.WriteLine("An error occurred while saving changes.");
                         Console.WriteLine(dbEx.Message);
-
-                        // Look at the inner exception for detail
                         if (dbEx.InnerException != null)
                         {
                             Console.WriteLine("Inner Exception:");
                             Console.WriteLine(dbEx.InnerException.Message);
                         }
+                        return;
                     }
-
-                    Console.WriteLine("New student created successfully!");
                 }
                 else
                 {
-                    // RETURNING STUDENT
                     Console.Write("Enter your Student ID: ");
                     var studentIdStr = Console.ReadLine();
 
@@ -72,47 +59,63 @@ namespace BookingSystem.Methods
                         return;
                     }
 
-                    // Find existing student
                     student = context.Students.Find(studentId);
                     if (student == null)
                     {
                         Console.WriteLine("No student found with that ID.");
                         return;
                     }
-
                 }
-                // 2. Ask for the ClassSchedule ID
+
                 Console.Clear();
                 Console.WriteLine($"Welcome back, {student.FirstName} {student.LastName}!");
                 Console.WriteLine("***********************************");
-                PrintDancestyles();
-                Console.Write("\nType the Dancestyle ID to witch class you want to book : ");
-                var Dancestylechoise = Console.ReadLine();
 
-               
                 
+                PrintDancestyle();
+
+                Console.Write("\nType the Dancestyle ID for the class you want to book: ");
+                var dancestyleChoice = Console.ReadLine();
+
+                if (int.TryParse(dancestyleChoice, out int dancestyleId))
+                {
+                    var selectedDancestyle = context.DanceStyles.FirstOrDefault(ds => ds.StyleId == dancestyleId);
+
+                    if (selectedDancestyle != null)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"\n{student.FirstName} {student.LastName} är bokad på {selectedDancestyle.StyleName}!");
+                        Console.WriteLine("Press any key to move forward");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid Dance ID. Please try again.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a numeric Dance ID.");
+                }
 
                 context.SaveChanges();
-
             }
-
-            
         }
-        public void PrintDancestyles()
+
+        public void PrintDancestyle()
         {
             using var context = new BookingSystemContext();
-
-            // Hämta alla dansstilar från databasen
             var danceStyles = context.DanceStyles.ToList();
 
-            // Iterera och skriv ut varje dansstil
+            Console.WriteLine("\nAvailable Dance Styles:");
+            Console.WriteLine("----------------------");
+
             foreach (var danceStyle in danceStyles)
             {
-                Console.WriteLine($"ID: {danceStyle.StyleId}, Name: {danceStyle.StyleName}");
+                Console.WriteLine($"ID: {danceStyle.StyleId} | Name: {danceStyle.StyleName}");
             }
+
+            Console.WriteLine("----------------------");
         }
-
-
     }
 }
-
