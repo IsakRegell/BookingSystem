@@ -14,6 +14,7 @@ namespace BookingSystem.Methods
 
         public void AddClass(BookingSystemContext dbContext)
         {
+            Console.Clear();
             Console.WriteLine("Enter Class Name:");
             string inputClassName = Console.ReadLine();
             if (string.IsNullOrEmpty(inputClassName))
@@ -113,6 +114,9 @@ namespace BookingSystem.Methods
             dbContext.SaveChanges();
 
             Console.WriteLine($"Lesson '{inputClassName}' added successfully for {startDate:yyyy-MM-dd} with teacher {selectedInstructor.FirstName} {selectedInstructor.LastName}.");
+
+            Console.WriteLine("Press any key to move forward");
+            Console.ReadKey();  
         }
 
     }

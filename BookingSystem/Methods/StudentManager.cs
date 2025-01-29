@@ -13,6 +13,7 @@ namespace BookingSystem.Models
         // Metod för att lägga till en student
         public static void AddStudent()
         {
+            Console.Clear();
             using (var context = new BookingSystemContext())
             {
                 Console.Write("Enter Student First Name: ");
@@ -46,12 +47,15 @@ namespace BookingSystem.Models
                     Console.WriteLine("An unexpected error occurred.");
                     Console.WriteLine($"Error details: {ex.Message}");
                 }
+                Console.WriteLine("Press any key to move forward");
+                Console.ReadKey();
             }
         }
 
         // Metod för att visa alla studenter
         public static void ViewAllStudents()
         {
+            Console.Clear();
             using (var context = new BookingSystemContext())
             {
                 var students = context.Students.ToList();
@@ -64,12 +68,15 @@ namespace BookingSystem.Models
                         $"Name: {student.FirstName} {student.LastName}"
                     );
                 }
+                Console.WriteLine("Press any key to move forward");
+                Console.ReadKey();
             }
         }
 
         // Metod för att ta bort en student
         public static void DeleteStudent()
         {
+            Console.Clear();
             using (var context = new BookingSystemContext())
             {
                 Console.Write("Enter Student ID to delete: ");
@@ -91,6 +98,8 @@ namespace BookingSystem.Models
                 context.Students.Remove(student);
                 context.SaveChanges();
                 Console.WriteLine("Student deleted successfully!");
+                Console.WriteLine("\nPress any key to move forward");
+                Console.ReadKey();
             }
         }
     }

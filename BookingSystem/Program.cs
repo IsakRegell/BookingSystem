@@ -1,6 +1,7 @@
 ﻿using BookingSystem.Methods;
 using BookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using Spectre.Console;
 using Microsoft.Extensions.Options;
 
 namespace BookingSystem
@@ -19,77 +20,39 @@ namespace BookingSystem
 
             while (true)
             {
-                Console.WriteLine("====== Booking System Menu ======");
-                Console.WriteLine("1. Add a Student"); // Balen
-                Console.WriteLine("2. Add a Teacher"); // Tomas
-                Console.WriteLine("3. Add a Class"); // Mikael
-                Console.WriteLine("4. View All Students"); // Balen
-                Console.WriteLine("5. View All Teachers"); // Tomas
-                Console.WriteLine("6. View Classes by Teacher"); // Isak
-                Console.WriteLine("7. View All Classes"); // Mikael
-                Console.WriteLine("8. Delete a Student"); // Balen
-                Console.WriteLine("9. Delete a Teacher"); // Tomas
-                Console.WriteLine("10. Filter Classes by Date"); // Mikael
-                Console.WriteLine("11. Filter Students by Classes"); // Isak
-                Console.WriteLine("12. Exit"); // Isak
-                Console.WriteLine("=================================");
-                Console.Write("Select an option: ");
+                var menuOptions = new Dictionary<string, Action>
+            {
+                { "Add a Student", () => StudentManager.AddStudent() },
+                { "Add a Teacher", () => InstructorManager.AddInstructor() },
+                { "Add a Class", () => new ClassesManager().AddClass(dbContext) },
+                { "View All Students", () => StudentManager.ViewAllStudents() },
+                { "View All Teachers", () => InstructorManager.ViewAllInstructors() },
+                { "View Classes by Teacher", () => ViewLessonsByTeacher.DisplayAllLessonsBasedOnInstructor() },
+                { "View All Classes", () => new ShowAllClasses(dbContext).DisplayAllClasses() },
+                { "Delete a Student", () => StudentManager.DeleteStudent() },
+                { "Delete a Teacher", () => InstructorManager.DeleteInstructor() },
+                { "Book a class", () => bookAclass.BookClass() },
+                { "Exit", () => { Console.WriteLine("Exiting..."); Environment.Exit(0); } }
+            };
 
-                var BookingSystemMenuChoice = Console.ReadLine();
-                switch (BookingSystemMenuChoice)
-                {
-                    case "1":
-                        StudentManager.AddStudent();  
-                        break;
-                    case "2":
-                        InstructorManager.AddInstructor();  
-                        break;
-                    case "3":
-                        var classesManager = new ClassesManager();
-                        classesManager.AddClass(dbContext);
+                // Skapa en interaktiv meny med Spectre.Console
+                var selectedOption = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[bold yellow]====== Booking System Menu ======[/]")
+                        .PageSize(12)
+                        .AddChoices(menuOptions.Keys)
+                        .HighlightStyle("cyan"));
 
-                        //AddLesson();  Mikael
-                        break;
-                    case "4":
-                        StudentManager.ViewAllStudents();  
-                        break;
-                    case "5":
-                        InstructorManager.ViewAllInstructors(); 
-                        break;
-                    case "6":
-                        ViewLessonsByTeacher.DisplayAllLessonsBasedOnInstructor();
-                        break;
-                    case "7":
-                        var showAllClasses = new ShowAllClasses(dbContext);
-                        showAllClasses.DisplayAllClasses();
-                        break;
-                    case "8":
-                        StudentManager.DeleteStudent();  
-                        break;
-                    case "9":
-                        InstructorManager.DeleteInstructor();  
-                        break;
-                    case "10":
-                        var filterClassesByDate = new FilterClassesByDate(dbContext);
-                        filterClassesByDate.FilterClasses();
-                        //FilterLessonsByDate();  Mikael
-                        break;
-                    case "11":
-                        bookAclass.BookClass();
-                        break;
-                    case "12":
-                        Console.WriteLine("Exiting...");
-                        return;
-                    default:
-                        Console.WriteLine("Invalid option. Try again.");
-                        break;
-                }
-
+                // Kör den valda menyalternativets metod
+                menuOptions[selectedOption].Invoke();
             }
+
+
+        }
         }
 
     }
-}
+
 
 
     

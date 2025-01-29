@@ -14,6 +14,7 @@ namespace BookingSystem.Methods
     {
         public static void ViewClassesByDate()
         {
+            Console.Clear();
             using (var dbcontext = new BookingSystemContext())
             {
                 var classes = dbcontext.Classes
@@ -45,7 +46,7 @@ namespace BookingSystem.Methods
                     return;
                 }
 
-                Console.WriteLine("All Classes (Ordered by Start Date):");
+                Console.WriteLine("\nAll Classes (Ordered by Start Date):");
                 foreach (var classObj in classes)
                 {
                     Console.WriteLine($"Class Name: {classObj.ClassName}");
@@ -59,7 +60,8 @@ namespace BookingSystem.Methods
                     Console.WriteLine($"  - Level: {classObj.LevelName}");
 
 
-
+                    Console.WriteLine("Press any key to move forward");
+                    Console.ReadKey();
 
                 }
         }   }
