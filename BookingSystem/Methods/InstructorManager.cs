@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using BookingSystem.Models;
 
 namespace BookingSystem.Models
 {
@@ -28,10 +30,28 @@ namespace BookingSystem.Models
                     Style = style
                 };
 
-                context.Instructors.Add(newInstructor);
-                context.SaveChanges();
+                try
+                {
+                    using (var BookingSystemcontext = new BookingSystemContext())
+                    {
+                        context.Instructors.Add(newInstructor);
+                        context.SaveChanges();
 
-                Console.WriteLine("Instructor added successfully!");
+                        Console.WriteLine("Instructor added successfully!");
+                    }
+                }
+                catch (DbUpdateException ex)
+                {
+                    // DbUpdateException usually covers database-level errors
+                    Console.WriteLine("An error occurred while saving the instructor to the database.");
+                    Console.WriteLine($"Error details: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Catch any other unexpected exceptions
+                    Console.WriteLine("An unexpected error occurred.");
+                    Console.WriteLine($"Error details: {ex.Message}");
+                }
             }
         }
 
@@ -80,5 +100,5 @@ namespace BookingSystem.Models
         }
     }
 }
-    
+
 

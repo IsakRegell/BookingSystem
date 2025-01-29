@@ -29,10 +29,21 @@ public partial class BookingSystemContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+<<<<<<< HEAD
         => optionsBuilder.UseSqlServer("Server=DESKTOP-HHBTOMM\\SQLEXPRESS;Database=allSQLtables;Trusted_Connection=True;TrustServerCertificate=true;");
     //Mikaels Databas: DESKTOP-HHBTOMM\SQLEXPRESS : allSQLtables
+=======
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-7437QQ2\\SQLEXPRESS;Database=Bookingsystem;Trusted_Connection=True;TrustServerCertificate=true;");
+
+>>>>>>> main
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //modelBuilder.Entity<Student>(entity =>
+        //{
+        //    entity.HasKey(e => e.Student_Id);
+        //});
+        modelBuilder.Entity<Student>().Property(x => x.Student_Id).ValueGeneratedOnAdd();
+
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.ClassId).HasName("PK__Classes__FDF479860A9E39EC");

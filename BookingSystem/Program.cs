@@ -10,10 +10,12 @@ namespace BookingSystem
         static void Main(string[] args)
         {
             var options = new DbContextOptionsBuilder<BookingSystemContext>()
-               .UseSqlServer("Server=DESKTOP-SFTN8V0\\SQLEXPRESS;Database=BookingSystem;Trusted_Connection=True;TrustServerCertificate=true;")
+               .UseSqlServer("Server=DESKTOP-M80AGJE\\SQLEXPRESS;Database=BookingSytem;Trusted_Connection=True;TrustServerCertificate=true;")
                .Options;
+            var ViewLessonsByTeacher = new ViewLessonsByTeacher();
+            var dbContext = new BookingSystemContext(options);
+            var bookAclass = new BookAClass();
 
-            using var dbContext = new BookingSystemContext(options);
 
             while (true)
             {
@@ -37,7 +39,7 @@ namespace BookingSystem
                 switch (BookingSystemMenuChoice)
                 {
                     case "1":
-                        //AddStudent();  Balen
+                        StudentManager.AddStudent();  
                         break;
                     case "2":
                         InstructorManager.AddInstructor();  
@@ -47,20 +49,25 @@ namespace BookingSystem
                         //AddLesson();  Mikael
                         break;
                     case "4":
-                        //ViewAllStudents();  Balen
+                        StudentManager.ViewAllStudents();  
                         break;
                     case "5":
                         InstructorManager.ViewAllInstructors(); 
                         break;
                     case "6":
-                        //ViewLessonsByTeacher();  Isak
+                        ViewLessonsByTeacher.DisplayAllLessonsBasedOnInstructor();
                         break;
                     case "7":
+<<<<<<< HEAD
                         ShowAllClasses.DisplayAllClasses();
                             //ViewAllLessons();  Mikael
+=======
+                        var showAllClasses = new ShowAllClasses(dbContext);
+                        showAllClasses.DisplayAllClasses();
+>>>>>>> main
                         break;
                     case "8":
-                        //DeleteStudent();  Balen
+                        StudentManager.DeleteStudent();  
                         break;
                     case "9":
                         InstructorManager.DeleteInstructor();  
@@ -70,10 +77,10 @@ namespace BookingSystem
                         //FilterLessonsByDate();  Mikael
                         break;
                     case "11":
-                        //FilterStudentsByLessons();  Isak
+                        bookAclass.BookClass();
                         break;
                     case "12":
-                        // Console.WriteLine("Exiting..."); Isak
+                        Console.WriteLine("Exiting...");
                         return;
                     default:
                         Console.WriteLine("Invalid option. Try again.");
