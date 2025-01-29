@@ -80,15 +80,16 @@ namespace BookingSystem.Methods
                         return;
                     }
 
-                    Console.WriteLine($"Welcome back, {student.FirstName} {student.LastName}!");
                 }
                 // 2. Ask for the ClassSchedule ID
                 Console.Clear();
+                Console.WriteLine($"Welcome back, {student.FirstName} {student.LastName}!");
+                Console.WriteLine("***********************************");
                 PrintDancestyles();
                 Console.Write("\nType the Dancestyle ID to witch class you want to book : ");
                 var Dancestylechoise = Console.ReadLine();
 
-               //Gåvidare här!
+               
                 
 
                 context.SaveChanges();

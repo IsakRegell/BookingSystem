@@ -14,6 +14,7 @@ namespace BookingSystem.Models
         {
             using (var context = new BookingSystemContext())
             {
+                Console.Clear();
                 Console.Write("Enter Instructor First Name: ");
                 string firstName = Console.ReadLine();
 
@@ -60,7 +61,7 @@ namespace BookingSystem.Models
             using (var context = new BookingSystemContext())
             {
                 var instructors = context.Instructors.ToList();
-
+                Console.Clear();
                 Console.WriteLine("====== All Instructors ======");
                 foreach (var instructor in instructors)
                 {
@@ -70,6 +71,9 @@ namespace BookingSystem.Models
                         $"Style: {instructor.Style}"
                     );
                 }
+                Console.WriteLine("Press any key to move forward");
+                Console.ReadKey();
+
             }
         }
 
@@ -77,6 +81,7 @@ namespace BookingSystem.Models
         {
             using (var context = new BookingSystemContext())
             {
+                Console.Clear();
                 Console.Write("Enter Instructor ID to delete: ");
                 var input = Console.ReadLine();
 
@@ -96,6 +101,9 @@ namespace BookingSystem.Models
                 context.Instructors.Remove(instructor);
                 context.SaveChanges();
                 Console.WriteLine("Instructor deleted successfully!");
+
+                Console.WriteLine("\nPress any key to move forward");
+                Console.ReadKey();
             }
         }
     }

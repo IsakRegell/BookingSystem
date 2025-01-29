@@ -20,6 +20,8 @@ namespace BookingSystem.Methods
 
         public void DisplayAllClasses()
         {
+
+            Console.Clear();
             var classes = dbContext.Classes
                 .Select(c => new
                 {
@@ -56,6 +58,9 @@ namespace BookingSystem.Methods
 
                 Console.WriteLine($"  - Level: {classObj.LevelName}");
             }
+
+            Console.WriteLine("Press any key to move forward");
+            Console.ReadKey();
 
         }
     }
