@@ -14,8 +14,8 @@ namespace BookingSystem.Methods
             using (var context = new BookingSystemContext())
             {
                 string className = GetValidInput("Enter Class Name:", "Class name cannot be empty.");
-                DateOnly startDate = GetValidDate("Enter Start Date (yyyy-MM-dd):");
-                DateOnly endDate = GetValidDate("Enter End Date (yyyy-MM-dd):", startDate);
+                DateOnly startDate = GetDateWithMenu("Enter Start Date:");
+                DateOnly endDate = GetDateWithMenu("Enter End Date:", startDate);
 
                 var selectedInstructor = SelectInstructor(context);
                 if (selectedInstructor == null)
@@ -74,27 +74,115 @@ namespace BookingSystem.Methods
             }
         }
 
-        // Metod för att hantera validerad inmatning av datum
-        private static DateOnly GetValidDate(string prompt, DateOnly? minDate = null)
+        private static DateOnly GetDateWithMenu(string prompt, DateOnly? minDate = null)
         {
-            while (true)
+            int year = DateTime.Today.Year;
+            int month = DateTime.Today.Month;
+            int day = DateTime.Today.Day;
+
+            Console.WriteLine($"{prompt}");
+
+            // Välj år
+            Console.Write($"Enter Year: ");
+            string yearInput = Console.ReadLine();
+            if (!string.IsNullOrEmpty(yearInput)) year = int.Parse(yearInput);
+
+            // Välj månad
+            month = GetMonthFromUser("Enter Month", month);
+
+
+            // Välj dag
+            day = GetDayFromUser("Enter Day", year, month, day);
+
+
+            DateOnly selectedDate = new DateOnly(year, month, day);
+
+            // Validera att slutdatum inte är före startdatum
+            if (minDate != null && selectedDate < minDate.Value)
             {
-                Console.WriteLine(prompt);
-                string input = Console.ReadLine();
+                Console.WriteLine("End date cannot be earlier than start date. Please try again.");
+                return GetDateWithMenu(prompt, minDate);
+            }
+            return selectedDate;
 
-                if (DateOnly.TryParse(input, out DateOnly date))
-                {
-                    if (minDate == null || date >= minDate)
-                        return date;
+        }
+        private static int GetMonthFromUser(string prompt, int defaultMonth)
+            {
+                string[] monthsShort = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
+                string[] monthsFull = { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" };
 
-                    Console.WriteLine("End date cannot be earlier than start date. Please try again.");
-                }
-                else
+                while (true)
                 {
-                    Console.WriteLine("Invalid date format. Please try again.");
+                    Console.Write($"{prompt} ({defaultMonth}): ");
+                    string input = Console.ReadLine()?.Trim().ToLower();
+
+                    // Om användaren trycker Enter, använd standardmånad
+                    if (string.IsNullOrEmpty(input)) return defaultMonth;
+
+                    // Försök tolka input som en siffra (månad 1-12)
+                    if (int.TryParse(input, out int monthNumber) && monthNumber >= 1 && monthNumber <= 12)
+                    {
+                        return monthNumber;
+                    }
+
+                    // Kontrollera om användaren skrev en månadsförkortning
+                    int shortIndex = Array.IndexOf(monthsShort, input);
+                    if (shortIndex != -1) return shortIndex + 1; // Index börjar på 0, månader på 1
+
+                    // Kontrollera om användaren skrev ett fullständigt månadsnamn
+                    int fullIndex = Array.IndexOf(monthsFull, input);
+                    if (fullIndex != -1) return fullIndex + 1;
+
+                    Console.WriteLine("Invalid month. Please enter a number (1-12) or a valid month name.");
                 }
             }
+
+        private static int GetDayFromUser(string prompt, int year, int month, int defaultDay)
+        {
+            string[] daysShort = { "sun", "mon", "tue", "wed", "thu", "fri", "sat" };
+            string[] daysFull = { "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday" };
+
+            while (true)
+            {
+                Console.Write($"{prompt} ({defaultDay}): ");
+                string input = Console.ReadLine()?.Trim().ToLower();
+
+                // Om användaren trycker Enter, använd standarddag
+                if (string.IsNullOrEmpty(input)) return defaultDay;
+
+                // Om det är en siffra (1-31), returnera den
+                if (int.TryParse(input, out int dayNumber) && dayNumber >= 1 && dayNumber <= DateTime.DaysInMonth(year, month))
+                {
+                    return dayNumber;
+                }
+
+                // Kolla om användaren skrev en veckodag
+                int shortIndex = Array.IndexOf(daysShort, input);
+                int fullIndex = Array.IndexOf(daysFull, input);
+
+                if (shortIndex != -1 || fullIndex != -1)
+                {
+                    int dayOfWeek = shortIndex != -1 ? shortIndex : fullIndex;
+                    return FindClosestDay(year, month, dayOfWeek);
+                }
+
+                Console.WriteLine("Invalid day. Please enter a number (1-31) or a valid weekday name.");
+            }
         }
+
+        private static int FindClosestDay(int year, int month, int targetDayOfWeek)
+        {
+            for (int day = 1; day <= DateTime.DaysInMonth(year, month); day++)
+            {
+                DateTime date = new DateTime(year, month, day);
+                if ((int)date.DayOfWeek == targetDayOfWeek)
+                {
+                    return day;
+                }
+            }
+            return 1; // Om något går fel, välj den första dagen
+        }
+
 
         // Metod för att hantera validerad inmatning av heltal
         private static int GetValidIntInput(string prompt)
