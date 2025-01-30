@@ -7,37 +7,31 @@ using System.Threading.Tasks;
 
 namespace BookingSystem.Methods
 {
-    public class ShowAllClasses
+    public static class ShowAllClasses
     {
-        private readonly BookingSystemContext dbContext;
-
-        // Konstruktor för att initialisera listan
-
-        public ShowAllClasses(BookingSystemContext context)
+        public static void DisplayAllClasses()
         {
-            dbContext = context ?? throw new ArgumentNullException(nameof(context), "Database context cannot be null.");
-        }
-
-        public void DisplayAllClasses()
-        {
-
             Console.Clear();
-            var classes = dbContext.Classes
-                .Select(c => new
-                {
-                    c.ClassName,
-                    Schedules = c.ClassSchedules.Select(s => new
+
+            using (var dbContext = new BookingSystemContext())
+            {
+
+                var classes = dbContext.Classes
+                    .Select(c => new
                     {
-                        s.StartDate,
-                        s.EndDate,
-                        Instructor = new
-                        {
-                            s.Instructor.FirstName,
-                            s.Instructor.LastName
-                        }
-                    }),
-                    LevelName = c.Level.LevelName
-                }).ToList();
+                        c.ClassName,
+                        Schedules = c.ClassSchedules
+                            .OrderBy(s => s.StartDate) // Sortera på StartDate
+                            .Select(s => new
+                            {
+                                s.StartDate,
+                                s.EndDate,
+                                InstructorName = $"{s.Instructor.FirstName} {s.Instructor.LastName}"
+                            })
+                            .ToList(), // Gör det till en lista för att undvika LINQ-problem
+                        LevelName = c.Level.LevelName
+                    })
+                    .ToList(); // Hämtar allt till minnet för att använda LINQ
 
                 if (!classes.Any())
                 {
@@ -45,22 +39,27 @@ namespace BookingSystem.Methods
                     return;
                 }
 
-            Console.WriteLine("All Classes:");
-            foreach (var classObj in classes)
-            {
-                Console.WriteLine($"Class Name: {classObj.ClassName}");
-
-                foreach (var schedule in classObj.Schedules)
+                Console.WriteLine("All Classes (Sorted by Start Date):");
+                Console.WriteLine("______________________________________\n");
+                foreach (var classObj in classes)
                 {
-                    Console.WriteLine($"  - Schedule: {schedule.StartDate:yyyy-MM-dd} to {schedule.EndDate:yyyy-MM-dd}");
-                    Console.WriteLine($"  - Instructor: {schedule.Instructor.FirstName} {schedule.Instructor.LastName}");
+                    Console.WriteLine($"Class Name: {classObj.ClassName}");
+                    Console.WriteLine($"Level: {classObj.LevelName}");
+
+                    foreach (var schedule in classObj.Schedules)
+                    {
+                        Console.WriteLine($"Schedule: {schedule.StartDate:yyyy-MM-dd} to {schedule.EndDate:yyyy-MM-dd}");
+                        Console.WriteLine($"Instructor: {schedule.InstructorName}");
+                    }
+
+
+                    Console.WriteLine("___________________________________\n");
                 }
 
-                Console.WriteLine($"  - Level: {classObj.LevelName}");
-            }
+                Console.WriteLine("\nPress any key to move forward...");
+                Console.ReadKey();
 
-            Console.WriteLine("Press any key to move forward");
-            Console.ReadKey();
+            }
 
         }
     }

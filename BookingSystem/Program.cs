@@ -24,11 +24,11 @@ namespace BookingSystem
             {
                 { "Add a Student", () => StudentManager.AddStudent() },
                 { "Add a Teacher", () => InstructorManager.AddInstructor() },
-                { "Add a Class", () => new ClassesManager().AddClass(dbContext) },
+                { "Add a Class", () => ClassesManager.AddClass() },
                 { "View All Students", () => StudentManager.ViewAllStudents() },
                 { "View All Teachers", () => InstructorManager.ViewAllInstructors() },
                 { "View Classes by Teacher", () => ViewLessonsByTeacher.DisplayAllLessonsBasedOnInstructor() },
-                { "View All Classes", () => new ShowAllClasses(dbContext).DisplayAllClasses() },
+                { "View All Classes", () => ShowAllClasses.DisplayAllClasses() },
                 { "Delete a Student", () => StudentManager.DeleteStudent() },
                 { "Delete a Teacher", () => InstructorManager.DeleteInstructor() },
                 { "Book a class", () => bookAclass.BookClass() },
