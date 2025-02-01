@@ -18,6 +18,9 @@ namespace BookingSystem.Methods
             {
                 Console.WriteLine($"ID: {instructor.InstructorId}, Name: {instructor.FirstName} {instructor.LastName}, Style: {instructor.Style}");
             }
+
+            Console.WriteLine("\nPress ENTER to move forward");
+            Console.ReadLine();
         }
 
         public void DisplayAllLessonsBasedOnInstructor()
