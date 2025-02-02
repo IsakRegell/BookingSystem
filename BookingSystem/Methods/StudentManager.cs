@@ -34,12 +34,17 @@ namespace BookingSystem.Models
                     context.SaveChanges();
 
                     Console.WriteLine("Student added successfully!");
+                    Console.ReadLine(); // or Console.ReadKey()
+
                 }
                 catch (DbUpdateException ex)
                 {
                     // Hantera databasfel
                     Console.WriteLine("An error occurred while saving the student to the database.");
                     Console.WriteLine($"Error details: {ex.Message}");
+
+                    Console.ReadLine(); // or Console.ReadKey()
+
                 }
                 catch (Exception ex)
                 {
