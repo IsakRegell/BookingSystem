@@ -11,7 +11,7 @@ namespace BookingSystem
         static void Main(string[] args)
         {
             var options = new DbContextOptionsBuilder<BookingSystemContext>()
-               .UseSqlServer("Server=DESKTOP-SFTN8V0\\SQLEXPRESS;Database=BookingSystem;Trusted_Connection=True;TrustServerCertificate=true;")
+               .UseSqlServer("Server=PC\\SQLEXPRESS;Database=Bookingsystem;Trusted_Connection=True;TrustServerCertificate=true;")
                .Options;
 
             var dbContext = new BookingSystemContext(options);
